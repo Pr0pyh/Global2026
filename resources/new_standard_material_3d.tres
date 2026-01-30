@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bq3pu4i52g6bu"]
+
+[ext_resource type="Texture2D" uid="uid://dx6vw7wqustpv" path="res://resources/hatfront.webp" id="1_yo37p"]
+
+[resource]
+albedo_texture = ExtResource("1_yo37p")

@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://d3vnnnd2fe8u"]
+
+[ext_resource type="Script" uid="uid://b11fc2gqi5v57" path="res://scenes/world/World.cs" id="1_5qbjp"]
+[ext_resource type="PackedScene" uid="uid://cyjtn6bw8w2ld" path="res://scenes/meshTest/MEshTest.tscn" id="2_1oml7"]
+
+[sub_resource type="Environment" id="Environment_1oml7"]
+
+[node name="World" type="Node3D" unique_id=362330140]
+script = ExtResource("1_5qbjp")
+
+[node name="MeshTest" parent="." unique_id=2055996952 node_paths=PackedStringArray("camera") instance=ExtResource("2_1oml7")]
+camera = NodePath("../Camera3D")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=358499814]
+transform = Transform3D(0.99807256, -0.018572608, 0.05921453, 8.8493275e-09, 0.95416725, 0.2992739, -0.062058866, -0.29869705, 0.9523281, 0.34809887, 0.5050838, 1.6795454)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1819176335]
+environment = SubResource("Environment_1oml7")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=122604013]
+transform = Transform3D(0.84137875, 0, 0.5404459, -0.16227232, 0.95385855, 0.2526293, -0.51550895, -0.30025634, 0.80255634, 2.7939339, 0, 0)

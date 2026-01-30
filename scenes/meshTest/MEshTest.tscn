@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://cyjtn6bw8w2ld"]
+
+[ext_resource type="Script" uid="uid://cw0em8jrs4rw" path="res://scenes/meshTest/MeshTest.cs" id="1_bk2bm"]
+[ext_resource type="PackedScene" uid="uid://csrt0osdycjpb" path="res://scenes/vertex/Vertex.tscn" id="2_s5xeu"]
+[ext_resource type="Material" uid="uid://bq3pu4i52g6bu" path="res://resources/new_standard_material_3d.tres" id="3_ydcxm"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_bk2bm"]
+material = ExtResource("3_ydcxm")
+subdivide_width = 2
+subdivide_depth = 2
+
+[node name="MeshTest" type="Node3D" unique_id=2055996952 node_paths=PackedStringArray("meshInstance3D")]
+script = ExtResource("1_bk2bm")
+meshInstance3D = NodePath("MeshInstance3D")
+vertexScene = ExtResource("2_s5xeu")
+material = ExtResource("3_ydcxm")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1013372843]
+mesh = SubResource("QuadMesh_bk2bm")
