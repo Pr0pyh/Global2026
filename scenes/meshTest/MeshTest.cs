@@ -22,6 +22,7 @@ public partial class MeshTest : Node3D
 		mesh = new ArrayMesh();
 		mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, ((QuadMesh)meshInstance3D.Mesh).GetMeshArrays());
 		meshDataTool = new MeshDataTool();
+		vertices = new Godot.Collections.Array<CharacterBody3D>();
 		meshDataTool.CreateFromSurface(mesh, 0);
 		GD.Print(meshDataTool.GetVertexCount());
 		for(int i = 0; i<meshDataTool.GetVertexCount(); i++)
@@ -31,6 +32,7 @@ public partial class MeshTest : Node3D
 			AddChild(vertex);
 			vertex.Position = vertexPosition;
 			vertex.Scale *= 0.1f;
+			vertices.Add(vertex);
 		}
 		mouseRelative = new Vector2(0.0f, 0.0f);
 	}
@@ -39,28 +41,22 @@ public partial class MeshTest : Node3D
     {
         if(@event is InputEventMouseMotion mouseMotion)
 		{
-			mouseRelative = mouseMotion.Relative;
+			if(mouseMotion.Relative != new Vector2(0.0f, 0.0f)) mouseRelative = mouseMotion.Relative;
 		}
     }
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{	
 		mouseRay();
-		if(Input.IsActionPressed("left"))
+		updateMesh();
+	}
+
+	private void updateMesh()
+	{
+		for(int i = 0; i<meshDataTool.GetVertexCount(); i++)
 		{
-			Vector3 vertex = meshDataTool.GetVertex(0);
-			vertex += new Vector3(-0.2f*(float)delta, 0.0f, 0.0f);
-			meshDataTool.SetVertex(0, vertex);
-			mesh.ClearSurfaces();
-			meshDataTool.CommitToSurface(mesh);
-			mesh.SurfaceSetMaterial(0, material);
-			meshInstance3D.Mesh = mesh;
-		}
-		else if(Input.IsActionPressed("right"))
-		{
-			Vector3 vertex = meshDataTool.GetVertex(0);
-			vertex += new Vector3(0.2f*(float)delta, 0.0f, 0.0f);
-			meshDataTool.SetVertex(0, vertex);
+			Vector3 newVertexPosition = vertices[i].GlobalPosition;
+			meshDataTool.SetVertex(i, newVertexPosition);
 			mesh.ClearSurfaces();
 			meshDataTool.CommitToSurface(mesh);
 			mesh.SurfaceSetMaterial(0, material);
@@ -70,7 +66,7 @@ public partial class MeshTest : Node3D
 
 	private void mouseRay()
 	{
-		Vector2 mousePos = GetViewport().GetMousePosition();
+		Godot.Vector2 mousePos = GetViewport().GetMousePosition();
 		float rayLength = 3000;
 		var from = camera.ProjectRayOrigin(mousePos);
 		var to = camera.ProjectRayNormal(mousePos) * rayLength;
@@ -81,14 +77,14 @@ public partial class MeshTest : Node3D
 		var raycastResult = space.IntersectRay(rayQuery);
 		if(raycastResult.Count != 0)
 		{
-			GD.Print(raycastResult["collider"].GetType());
-			if(raycastResult["collider"].GetType() == typeof(CharacterBody3D))
+			GodotObject collider = (GodotObject)raycastResult["collider"];
+			if(typeof(CharacterBody3D).IsAssignableFrom(collider.GetType()))
 			{
 				CharacterBody3D body = (CharacterBody3D)raycastResult["collider"];
-				if(Input.IsMouseButtonPressed(0))
+				if(Input.IsMouseButtonPressed(MouseButton.Left))
 				{
-					body.Velocity = new Vector3(mouseRelative.X, mouseRelative.Y, 0.0f);
-					body.MoveAndSlide();
+					Godot.Vector3 mousePosition3D = (Godot.Vector3)raycastResult["position"];
+					body.GlobalPosition = new Godot.Vector3(mousePosition3D.X, mousePosition3D.Y, 0.0f);
 				}
 			}
 		}

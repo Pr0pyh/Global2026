@@ -5,6 +5,9 @@
 
 [sub_resource type="Environment" id="Environment_1oml7"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_1oml7"]
+size = Vector3(10, 10, 1)
+
 [node name="World" type="Node3D" unique_id=362330140]
 script = ExtResource("1_5qbjp")
 
@@ -12,10 +15,17 @@ script = ExtResource("1_5qbjp")
 camera = NodePath("../Camera3D")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=358499814]
-transform = Transform3D(0.99807256, -0.018572608, 0.05921453, 8.8493275e-09, 0.95416725, 0.2992739, -0.062058866, -0.29869705, 0.9523281, 0.34809887, 0.5050838, 1.6795454)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.7970397)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1819176335]
 environment = SubResource("Environment_1oml7")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=122604013]
 transform = Transform3D(0.84137875, 0, 0.5404459, -0.16227232, 0.95385855, 0.2526293, -0.51550895, -0.30025634, 0.80255634, 2.7939339, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=2101523173]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.15436941)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=71719156]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.40965343)
+shape = SubResource("BoxShape3D_1oml7")
